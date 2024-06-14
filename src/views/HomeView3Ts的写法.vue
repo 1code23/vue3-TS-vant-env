@@ -26,14 +26,14 @@
           <div class="nameBox">
             <van-cell-group inset>
               <van-field
-                v-model="formData.userName"
+                v-model="userName"
                 required
                 label="领卡姓名"
                 clearable
                 placeholder="办理人姓名（已加密）"
               />
               <van-field
-                v-model="formData.mobile"
+                v-model="mobile"
                 required
                 label="联系电话"
                 clearable
@@ -42,7 +42,7 @@
               />
               <van-field
                 v-show="isShowAddress"
-                v-model="formData.idCard"
+                v-model="idCard"
                 required
                 label="证件号码"
                 clearable
@@ -50,7 +50,7 @@
                 style="margin: 10px 0"
               />
               <van-field
-                v-model="formData.result"
+                v-model="result"
                 required
                 name="area"
                 label="邮寄地址"
@@ -68,7 +68,7 @@
 
               <van-field
                 v-show="isShowAddress"
-                v-model="formData.address"
+                v-model="address"
                 required
                 label="详细地址"
                 clearable
@@ -117,7 +117,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, onMounted, ref,reactive } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import {
   showLoadingToast,
   closeToast,
@@ -141,15 +141,12 @@ const router = useRouter();
 const goDetailUrl = (val: number) => {
   router.push({ path: "/networkAccess", query: { type: val } });
 };
-const formData=reactive({
-  userName:'',
-  mobile:'',
-  result:'',
-  idCard:'',
-  address:''
-})
+
 const loading = ref(false);
 const checked = ref(false);
+const userName = ref("");
+const mobile = ref("");
+const result = ref("");
 const areaArr = ref({
   province_list: areaList.province_list,
   // province_list:{440000:"广东省"},//目前只支持广东省
@@ -158,6 +155,8 @@ const areaArr = ref({
 });
 const showArea = ref(false);
 const isShowAddress = ref(false);
+const address = ref("");
+const idCard = ref("");
 
 // selectedOptions格式为对象 对象中的selectedOptions字段为数组 数组中的text字段为字符串
 // const selectedOptions = ref({
@@ -170,18 +169,18 @@ const onConfirm = (selectedOptions: {
   selectedOptions: Array<{ text: string }>;
 }) => {
   showArea.value = false;
-  formData.result= selectedOptions.selectedOptions
+  result.value = selectedOptions.selectedOptions
     .map((item) => item.text)
     .join("/");
 };
 // 提交信息
 const getAwardBtn = async () => {
-  if (!formData.userName || !formData.mobile) {
+  if (!userName.value || !mobile.value) {
     showFailToast("请填写办理人信息");
     return;
   }
   let pattern = /^1[0-9]{10}$/;
-  if (!pattern.test(formData.mobile)) {
+  if (!pattern.test(mobile.value)) {
     showFailToast("请填写合法的手机号");
     return;
   }
@@ -190,7 +189,7 @@ const getAwardBtn = async () => {
     return;
   }
   let idCardCheck = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-  if (!idCardCheck.test(formData.idCard)) {
+  if (!idCardCheck.test(idCard.value)) {
     showFailToast("请填写合法身份证号码");
     return;
   }
@@ -198,23 +197,23 @@ const getAwardBtn = async () => {
     showFailToast("请先阅读个人信息保护政策");
     return;
   }
-  if (!formData.result) {
+  if (!result.value) {
     showFailToast("请选择省市区");
     return;
   }
-  if (!formData.address) {
+  if (!address.value) {
     showFailToast("请填写详细地址");
     return;
   }
   loading.value = true;
   const res = await getAward({
-    name: formData.userName,
-    mobile: formData.mobile,
-    addr: formData.address,
-    idCard: formData.idCard,
-    province: formData.result.split("/")[0],
-    city: formData.result.split("/")[1],
-    region: formData.result.split("/")[2],
+    name: userName.value,
+    mobile: mobile.value,
+    addr: address.value,
+    idCard: idCard.value,
+    province: result.value.split("/")[0],
+    city: result.value.split("/")[1],
+    region: result.value.split("/")[2],
   });
   if (res&& 'data' in res&&res.data&&res.data.code == 200) {
     loading.value = false;

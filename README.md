@@ -34,3 +34,5 @@ newHttp.js文件中 代码片段 baseURL: process.env.VUE_APP_BASE_API2,//根据
 
 vue3+ts+webpack兼容低版本谷歌浏览器  https://blog.csdn.net/treasurecp/article/details/138624681  assets文件中pic有截图
 
+
+在传递参数时触发类型错误 可以在 tsconfig.json 文件中将 noImplicitAny 设置为 true：

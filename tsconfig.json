@@ -4,6 +4,7 @@
     "target": "ES2015",
     "module": "esnext",
     "strict": true,
+    "noImplicitAny": true,
     "jsx": "preserve",
     "moduleResolution": "node",
     "skipLibCheck": true,

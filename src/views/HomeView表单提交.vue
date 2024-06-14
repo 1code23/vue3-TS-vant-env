@@ -117,7 +117,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, onMounted, ref,reactive } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import {
   showLoadingToast,
   closeToast,
@@ -141,7 +141,7 @@ const router = useRouter();
 const goDetailUrl = (val: number) => {
   router.push({ path: "/networkAccess", query: { type: val } });
 };
-const formData=reactive({
+const formData=ref({
   userName:'',
   mobile:'',
   result:'',
@@ -150,6 +150,9 @@ const formData=reactive({
 })
 const loading = ref(false);
 const checked = ref(false);
+// const userName = ref("");
+// const mobile = ref("");
+// const result = ref("");
 const areaArr = ref({
   province_list: areaList.province_list,
   // province_list:{440000:"广东省"},//目前只支持广东省
@@ -158,6 +161,8 @@ const areaArr = ref({
 });
 const showArea = ref(false);
 const isShowAddress = ref(false);
+// const address = ref("");
+// const idCard = ref("");
 
 // selectedOptions格式为对象 对象中的selectedOptions字段为数组 数组中的text字段为字符串
 // const selectedOptions = ref({
@@ -170,18 +175,18 @@ const onConfirm = (selectedOptions: {
   selectedOptions: Array<{ text: string }>;
 }) => {
   showArea.value = false;
-  formData.result= selectedOptions.selectedOptions
+  formData.value.result= selectedOptions.selectedOptions
     .map((item) => item.text)
     .join("/");
 };
 // 提交信息
 const getAwardBtn = async () => {
-  if (!formData.userName || !formData.mobile) {
+  if (!formData.value.userName || !formData.value.mobile) {
     showFailToast("请填写办理人信息");
     return;
   }
   let pattern = /^1[0-9]{10}$/;
-  if (!pattern.test(formData.mobile)) {
+  if (!pattern.test(formData.value.mobile)) {
     showFailToast("请填写合法的手机号");
     return;
   }
@@ -190,7 +195,7 @@ const getAwardBtn = async () => {
     return;
   }
   let idCardCheck = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-  if (!idCardCheck.test(formData.idCard)) {
+  if (!idCardCheck.test(formData.value.idCard)) {
     showFailToast("请填写合法身份证号码");
     return;
   }
@@ -198,23 +203,23 @@ const getAwardBtn = async () => {
     showFailToast("请先阅读个人信息保护政策");
     return;
   }
-  if (!formData.result) {
+  if (!formData.value.result) {
     showFailToast("请选择省市区");
     return;
   }
-  if (!formData.address) {
+  if (!formData.value.address) {
     showFailToast("请填写详细地址");
     return;
   }
   loading.value = true;
   const res = await getAward({
-    name: formData.userName,
-    mobile: formData.mobile,
-    addr: formData.address,
-    idCard: formData.idCard,
-    province: formData.result.split("/")[0],
-    city: formData.result.split("/")[1],
-    region: formData.result.split("/")[2],
+    name: formData.value.userName,
+    mobile: formData.value.mobile,
+    addr: formData.value.address,
+    idCard: formData.value.idCard,
+    province: formData.value.result.split("/")[0],
+    city: formData.value.result.split("/")[1],
+    region: formData.value.result.split("/")[2],
   });
   if (res&& 'data' in res&&res.data&&res.data.code == 200) {
     loading.value = false;
