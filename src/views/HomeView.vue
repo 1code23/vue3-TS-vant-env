@@ -224,7 +224,111 @@ const getAwardBtn = async () => {
     showFailToast(res && 'data' in res ? res.data.msg : '请求错误');
   }
 };
+function greet1(name: string): string {
+  return `Hello, ${name}!`;
+}
+const message1: string = greet1('John');
+console.log(message1,8787); // Output: "Hello, John!"
+// let numberLength: number = <number>length; // Using <type> syntax
+// let stringLength: number = length as number; // Using "as type" syntax
+// let ss=length+2
+// console.log(numberLength+stringLength,999,ss)
 
+let length: any = 5;
+function greet(name: number): number {
+  return name;
+}
+let stringLength: number = length as number; // Using "as type" syntax
+stringLength.toFixed()
+const message: number = greet(length);
+console.log(message)
+
+
+onMounted(async () => {
+ 
+  // interface Person {
+  //   name: string;
+  //   age ?: number;
+  //   [propName: string]: string | number | undefined;
+  // }
+
+  // let tom: Person = {
+  //   name: 'Tom',
+  //   age: 25,
+  //   gender: 'male'
+  // };
+  // console.log(tom,111)
+
+  // const x = {
+  //   a:1,
+  //   b:2,
+  //   c:3
+  // }
+  // const key="a"
+  // console.log(x[key])
+
+  // let listObject: Array<object> = [{key:1}];
+  // let listNumber: Array<number> = [1,2,3];
+  // let listNumber: number[] = [1,2,3];//常用的写法
+  // let listString: Array<string> = ['1','2','3'];
+  // let listLength: [string, number];
+  // listLength = ['name',26]
+  // let arr: ReadonlyArray<number>=listNumber //只读数组
+  // console.log(arr,111)
+
+  // enum Color {Red, Green, Blue}
+  // let colorName: string = Color[0];
+  // console.log(colorName,'enu枚举');  // 显示'Red' 因为上面代码里它的值是1
+
+  // enum Color1 {Red=1, Green, Blue}
+  // let colorName1: string = Color1[2];
+  // console.log(colorName1,'enu枚举');  // 显示'Green' 因为上面代码里它的值是1
+
+  // let notSure: any = 4;
+  // notSure = "maybe a string instead";
+  // notSure = false; // okay, definitely a boolean
+  // notSure.ifItExists(); // 这里notSure没有ifItExists方法就会报错 okay, ifItExists might exist at runtime
+  // notSure.toFixed(); // okay, toFixed exists (but the compiler doesn't check)
+
+
+  // let someValue: any = "this is a string";
+  // let strLength: number = (someValue as string).length;  //可以理解为 someValue看做string类型
+  // console.log(strLength)
+  
+  // const numbers= [1, 2, 3, 4, 5];
+  // const sum = numbers.reduce((accumulator, currentValue) => {
+  //   return accumulator + currentValue;
+  // }, 0);
+  // console.log(sum); // 输出：15
+  // // const sum1 = numbers.reduce('回调函数callback', '初始值');
+  // // const sum1 = numbers.reduce(('累计值','当前值','当前索引','原始数组') => {
+  
+  // // }, 0);
+  // const sum1= numbers.reduce((s,value,key,arr) => {
+  //   console.log(s,value,key,arr)
+  //   return s+value
+  // }, 0);
+  const numbers = [8, 3, 5, 1, 9];
+  // 正无穷大 Infinity ，负无穷大 -Infinity
+  const max = numbers.reduce((max,value)=>{
+    return value>max?value:max
+  },-Infinity)
+  const min = numbers.reduce((min,value)=>{
+    return value<min?value:min
+  },Infinity)
+  console.log('最大值为：'+ max,'最小值为：'+ min); // 输出：9
+
+  // array.reduce(callback, initialValue);
+  // reduce() 是 JavaScript 数组的高阶函数之一，它可以用于对数组中的元素进行迭代，并根据每个元素进行累积计算，最终返回一个单一的值。
+  // reduce() 方法接受两个参数：回调函数和可选的初始值。回调函数又有四个参数：累计值（accumulator）、当前值（current value）、当前索引（current index）和原始数组（array）。
+  // callback：一个函数，用于对数组中的每个元素进行处理。它接受四个参数：
+  // accumulator：累计值，即上一次回调函数的返回值或初始值（如果提供了初始值）。
+  // currentValue：当前元素的值。
+  // currentIndex：当前元素的索引（可选）。
+  // array：原始数组（可选）。
+  // initialValue（可选）：作为第一次调用回调函数时的累计值。如果不提供初始值，则使用数组的第一个元素作为初始值，并从第二个元素开始迭代。
+  
+});
 </script>
 <style scoped lang="less">
 .pageBox {
